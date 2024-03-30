@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://unpkg.com/@atlaskit/css-reset@2.0.0/dist/bundle.css" media="all">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&amp;family=Work+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
+    <script src="https://connect-cdn.atl-paas.net/all.js"></script>
+  </head>
+  <body>
+    <section class="a-easyClock">
+      <div class="easyClock">
+        <div class="easyClock-path">
+          <span>Projects <span>></span> International <span>></span> <strong>Product Web</strong></span>
+        </div>
+        <div class="easyClock-title-button">
+          <h1>Tempo das tarefas</h1>
+          <button class="easyClock-newTask" onclick="newInputs()">
+            <span>+</span>Nova tarefa
+          </button>
+        </div>
+        <div class="a-easyClock-inputs">
+          <div class="easyClock-inputs">
+            <input type="text" id="issueKey" name="issueKey" placeholder="Tarefa" required>
+            <div class="easyClock-inputs__line"></div>
+            <input type="text" id="timeSpent" name="timeSpent" placeholder="Tempo" required>
+            <button class="easyClock-trash">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+        <div class="easyClock-submit">
+          <button onclick="updateWorkLogTask()">Enviar</button>
+        </div>
+      </div>
+    </section>
+    <script>
+      let requestApi
+
+      document.addEventListener("DOMContentLoaded", function() {
+        AP.require('request', (request) =>
+          requestApi = request
+        )
+      })
+
+      function updateWorkLogTask(issueId) {
+        if (!requestApi) {
+          console.error('O módulo "request" ainda não foi carregado.');
+          return;
+        }
+
+        const currentDate = new Date()
+        // const newWorklog = {
+        //   "timeSpent": "2h",
+        //   "comment": "Tempo trabalhado atualizado",
+        //   "started": new Date().toISOString().replace('Z', '+0000')
+        // }
+        const bodyData = `{
+          "comment": {
+            "content": [
+              {
+                "content": [
+                  {
+                    "text": "I did some work here.",
+                    "type": "text"
+                  }
+                ],
+                "type": "paragraph"
+              }
+            ],
+            "type": "doc",
+            "version": 1
+          },
+          "started": "2021-01-17T12:34:00.000+0000",
+          "timeSpentSeconds": 12000
+        }`
+
+        requestApi({
+          url: `/rest/api/3/issue/KAN-1/worklog`,
+          type: 'POST',
+          contentType: 'application/json',
+          data: bodyData,
+          success: function(response) {
+            console.log('Tempo trabalhado atualizado com sucesso:', response)
+          },
+          error: function(response) {
+            console.log('Erro ao atualizar o tempo trabalhado:', response)
+          }
+        })
+      }
+
+      function newInputs() {
+        const elementMain = document.querySelector('.a-easyClock-inputs')
+        const easyClockInput = document.createElement('div')
+        const elementsNewInputs = `
+            <input type="text" id="issueKey" name="issueKey" placeholder="Tarefa" required>
+            <div class="easyClock-inputs__line"></div>
+            <input type="text" id="timeSpent" name="timeSpent" placeholder="Tempo" required>
+            <button class="easyClock-trash">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          `
+
+        easyClockInput?.classList?.add('easyClock-inputs')
+        easyClockInput.innerHTML = elementsNewInputs
+
+        elementMain?.appendChild(easyClockInput)
+      }
+
+      // function updateWorklog() {
+      //   const userEmail = 'jonathanfla0805@gmail.com'
+      //   const apiToken = ''
+      //   const credentials = `${userEmail}:${apiToken}`
+      //   const base64Credentials = btoa(credentials)
+      //   const issueKey = 'atd-29';
+      //   const timeSpent = '2h';
+      //   const now = new Date();
+      //   const year = now.getUTCFullYear();
+      //   const month = (`0${now.getUTCMonth() + 1}`).slice(-2);
+      //   const day = (`0${now.getUTCDate()}`).slice(-2);
+      //   const hours = (`0${now.getUTCHours()}`).slice(-2);
+      //   const minutes = (`0${now.getUTCMinutes()}`).slice(-2);
+      //   const seconds = (`0${now.getUTCSeconds()}`).slice(-2);
+        
+      //   const started = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.000+0000`;
+      //   fetch(`/rest/api/3/issue/${issueKey}/worklog`, {
+      //     method: 'POST',
+      //     headers: {
+      //       'Authorization': `Basic ${base64Credentials}`,
+      //       'Content-Type': 'application/json',
+      //     },
+      //     body: JSON.stringify({
+      //       started: "2021-01-17T12:34:00.000+0000",
+      //       timeSpent: '2h',
+      //     })
+      //   })
+      //   .then(response => response.json())
+      //   .then(data => {
+      //     console.log('Tempo de tarefa atualizado:', data);
+      //     alert('Tempo de tarefa atualizado com sucesso');
+      //   })
+      //   .catch(error => {
+      //     console.error('Erro ao atualizar tempo de tarefa:', error);
+      //     alert('Erro ao atualizar tempo de tarefa');
+      //   });
+      // }
+    </script>
+  </body>
+</html>
+
+<!-- https://faa0-2804-d41-b07f-8200-f1a3-3fe7-f5db-913f.ngrok-free.app/atlassian-connect.json -->
+<!-- http-server -p 8000 -->
+<!-- ngrok http http://localhost:8080 -->

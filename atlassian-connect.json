@@ -1,0 +1,30 @@
+{
+  "name": "Easy Clock",
+  "description": "Atlassian Connect app",
+  "key": "com.example.easyclock",
+  "baseUrl": "https://411b-2804-d41-b080-700-b111-2f80-bdcd-fc70.ngrok-free.app",
+  "vendor": {
+    "name": "Example, Inc.",
+    "url": "http://example.com"
+  },
+  "authentication": {
+    "type": "none"
+  },
+  "apiVersion": 3,
+  "modules": {
+    "generalPages": [
+      {
+        "url": "/easyClock.html",
+        "key": "easy-clock",
+        "location": "system.top.navigation.bar",
+        "name": {
+          "value": "Easy Clock"
+        }
+      }
+    ]
+  },
+  "scopes": [
+    "read",
+    "write"
+  ]
+}

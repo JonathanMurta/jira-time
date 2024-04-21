@@ -24,10 +24,16 @@
         </div>
         <div class="a-easyClock-inputs">
           <div class="easyClock-inputs">
-            <input type="text" id="issueKey" name="issueKey" placeholder="Tarefa" required>
+            <div>
+              <label>Tarefa</label>
+              <input type="text" id="issueKey" name="issueKey" required>
+            </div>
             <div class="easyClock-inputs__line"></div>
-            <input type="text" id="timeSpent" name="timeSpent" placeholder="Tempo" required>
-            <button class="easyClock-trash">
+            <div>
+              <label>Tempo</label>
+              <input type="text" id="timeSpent" name="timeSpent" required>
+            </div>
+            <button type="button" class="easyClock-trash">
               <i class="fa fa-trash" aria-hidden="true"></i>
             </button>
           </div>
@@ -148,6 +154,7 @@
       //   });
       // }
     </script>
+    <script src="script.js"></script>
   </body>
 </html>
 

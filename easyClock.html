@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
+    <title>Jira time</title>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/@atlaskit/css-reset@2.0.0/dist/bundle.css" media="all">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -25,12 +27,12 @@
         <div class="a-easyClock-inputs">
           <div class="easyClock-inputs">
             <div>
-              <label>Tarefa</label>
+              <label for="issueKey">Tarefa</label>
               <input type="text" id="issueKey" name="issueKey" required>
             </div>
             <div class="easyClock-inputs__line"></div>
             <div>
-              <label>Tempo</label>
+              <label for="timeSpent">Tempo</label>
               <input type="text" id="timeSpent" name="timeSpent" required>
             </div>
             <button type="button" class="easyClock-trash">
@@ -44,78 +46,6 @@
       </div>
     </section>
     <script>
-      let requestApi
-
-      document.addEventListener("DOMContentLoaded", function() {
-        AP.require('request', (request) =>
-          requestApi = request
-        )
-      })
-
-      function updateWorkLogTask(issueId) {
-        if (!requestApi) {
-          console.error('O módulo "request" ainda não foi carregado.');
-          return;
-        }
-
-        const currentDate = new Date()
-        // const newWorklog = {
-        //   "timeSpent": "2h",
-        //   "comment": "Tempo trabalhado atualizado",
-        //   "started": new Date().toISOString().replace('Z', '+0000')
-        // }
-        const bodyData = `{
-          "comment": {
-            "content": [
-              {
-                "content": [
-                  {
-                    "text": "I did some work here.",
-                    "type": "text"
-                  }
-                ],
-                "type": "paragraph"
-              }
-            ],
-            "type": "doc",
-            "version": 1
-          },
-          "started": "2021-01-17T12:34:00.000+0000",
-          "timeSpentSeconds": 12000
-        }`
-
-        requestApi({
-          url: `/rest/api/3/issue/KAN-1/worklog`,
-          type: 'POST',
-          contentType: 'application/json',
-          data: bodyData,
-          success: function(response) {
-            console.log('Tempo trabalhado atualizado com sucesso:', response)
-          },
-          error: function(response) {
-            console.log('Erro ao atualizar o tempo trabalhado:', response)
-          }
-        })
-      }
-
-      function newInputs() {
-        const elementMain = document.querySelector('.a-easyClock-inputs')
-        const easyClockInput = document.createElement('div')
-        const elementsNewInputs = `
-            <input type="text" id="issueKey" name="issueKey" placeholder="Tarefa" required>
-            <div class="easyClock-inputs__line"></div>
-            <input type="text" id="timeSpent" name="timeSpent" placeholder="Tempo" required>
-            <button class="easyClock-trash">
-              <i class="fa fa-trash" aria-hidden="true"></i>
-            </button>
-          `
-
-        easyClockInput?.classList?.add('easyClock-inputs')
-        easyClockInput.innerHTML = elementsNewInputs
-
-        elementMain?.appendChild(easyClockInput)
-      }
-
       // function updateWorklog() {
       //   const userEmail = 'jonathanfla0805@gmail.com'
       //   const apiToken = ''
